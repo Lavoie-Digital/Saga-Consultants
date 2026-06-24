@@ -4,7 +4,7 @@ import { ArrowLink } from "@/components/ui";
 
 export default function Manifesto() {
   return (
-    <section className="container-saga py-14 md:py-20">
+    <section className="container-saga py-10 md:py-14">
       <Reveal>
         <div className="flex items-center gap-3 border-b border-line pb-5">
           <span className="size-1.5 rounded-full bg-brown" />
@@ -29,31 +29,24 @@ export default function Manifesto() {
           </Reveal>
 
           <Reveal delay={0.1}>
-            <div className="mt-10 border-t border-line pt-7">
+            <div className="mt-8 border-t border-line pt-6">
               <span className="eyebrow">Notre vision de l’ingénierie</span>
-              <div className="mt-5 max-w-2xl space-y-5 text-pretty text-lg leading-relaxed text-stone-600">
+              <div className="mt-4 max-w-2xl space-y-4 text-pretty text-lg leading-relaxed text-stone-600">
                 <p>
-                  La firme a été fondée avec l’idée que la construction d’un
-                  nouvel ouvrage nécessite une conception impliquant tous les
-                  intervenants ; le travail en silo mène inévitablement à des
-                  coûts de construction de base élevés, à des coordinations de
-                  chantier coûteuses et à un ouvrage final performant sous son
-                  potentiel maximal.
+                  La construction d’un nouvel ouvrage nécessite une conception
+                  impliquant tous les intervenants ; le travail en silo mène à
+                  des coûts élevés et à un ouvrage performant sous son potentiel.
                 </p>
                 <p>
                   <span className="text-ink">
                     SAGA s’implique dans un projet comme un vecteur de
-                    coordination et d’intégration.
+                    coordination et d’intégration,
                   </span>{" "}
-                  Nos concepteurs combinent la connaissance technique des
-                  structures à la vision d’ensemble des besoins du projet.
-                </p>
-                <p>
-                  Nous croyons que de traiter tous les intervenants sur une base
-                  égalitaire optimise le flot des idées.
+                  en combinant la connaissance technique des structures à la
+                  vision d’ensemble des besoins du projet.
                 </p>
               </div>
-              <div className="mt-8">
+              <div className="mt-7">
                 <ArrowLink href="/equipe">Rencontrer l’équipe</ArrowLink>
               </div>
             </div>

@@ -18,8 +18,9 @@ export const site = {
 } as const;
 
 export const nav = [
-  { label: "Accueil", href: "/" },
+  { label: "La Firme", href: "/" },
   { label: "Services", href: "/services" },
+  { label: "Expertise", href: "/expertise" },
   { label: "Projets", href: "/projets" },
   { label: "Équipe", href: "/equipe" },
   { label: "Carrières", href: "/carrieres" },
@@ -58,42 +59,6 @@ export const services: Service[] = [
       "Évaluation post-sinistre",
     ],
     image: "/seminaire.webp",
-  },
-  {
-    index: "03",
-    title: "Mise à niveau parasismique",
-    blurb:
-      "Remettre les structures existantes aux normes actuelles de résistance et de sismicité.",
-    details: [
-      "Renforcement structural",
-      "Mise aux normes parasismiques",
-      "Réhabilitation du patrimoine bâti",
-    ],
-    image: "/centre-sante-equilibre.webp",
-  },
-  {
-    index: "04",
-    title: "Plans et devis",
-    blurb:
-      "Concevoir et documenter la structure de bâtiments neufs ou existants, du concept au chantier.",
-    details: [
-      "Bâtiments neufs et agrandissements",
-      "Plans, devis et détails d’exécution",
-      "Coordination interdisciplinaire (BIM)",
-    ],
-    image: "/ecole-scdm.webp",
-  },
-  {
-    index: "05",
-    title: "Surveillance de travaux",
-    blurb:
-      "Assurer que ce qui est bâti reflète fidèlement ce qui a été conçu, sur le terrain.",
-    details: [
-      "Surveillance de chantier",
-      "Contrôle de la conformité",
-      "Attestations de conformité",
-    ],
-    image: "/microtel.webp",
   },
 ];
 

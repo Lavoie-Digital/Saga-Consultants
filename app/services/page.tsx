@@ -6,7 +6,7 @@ import { Reveal } from "@/components/anim";
 export const metadata: Metadata = {
   title: "Services",
   description:
-    "Études préparatoires, expertises structurales, mise à niveau parasismique, plans et devis, surveillance de travaux. Le génie-conseil en structures, du concept au chantier.",
+    "Études préparatoires et rapports d’expertise structurale. Le génie-conseil en structures, du concept au chantier.",
 };
 
 export default function ServicesPage() {
@@ -16,19 +16,19 @@ export default function ServicesPage() {
         eyebrow="Services · Génie-conseil"
         titleLines={["Notre champ d’expertise"]}
         intro="Des services de consultation en ingénierie pour le multirésidentiel, le commercial, l’institutionnel et l’industriel — quelle que soit l’échelle."
-        image="/stock/structure.jpg"
-        imageAlt="Plans techniques et instruments de mesure sur une table de conception"
+        image="/stock/concrete.jpg"
+        imageAlt="Structure de béton apparent d’un bâtiment en construction"
       />
 
       {/* Services — icon showcase */}
       <section className="container-saga py-16 md:py-24">
         <div className="mb-10 flex items-end justify-between gap-6 border-b border-line pb-6">
           <Reveal>
-            <span className="eyebrow">Cinq volets, une logique</span>
+            <span className="eyebrow">Nos services-conseils</span>
           </Reveal>
           <Reveal delay={0.05}>
             <span className="hidden font-mono text-xs uppercase tracking-[0.12em] text-stone-400 sm:block">
-              Survolez chaque carte
+              Du concept au chantier
             </span>
           </Reveal>
         </div>

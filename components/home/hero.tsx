@@ -1,7 +1,6 @@
 "use client";
 
-import Image from "next/image";
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   motion,
   useScroll,
@@ -15,10 +14,19 @@ import { site } from "@/lib/site";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 
+// Carrousel d’arrière-plan — diversité de projets structuraux.
+const heroVideos = [
+  "/stock/hero-1.mp4",
+  "/stock/hero-2.mp4",
+  "/stock/hero-3.mp4",
+  "/stock/hero-4.mp4",
+];
+const SLIDE_MS = 7000;
+
 const facts = [
-  { k: "Fondée en", v: "2020" },
-  { k: "Projets livrés", v: "150+" },
-  { k: "Territoire", v: "Saguenay–Lac-St-Jean" },
+  { k: "Durée moyenne de projet", v: "6 mois" },
+  { k: "Projets livrés", v: "500+" },
+  { k: "Territoire", v: "Province de Québec" },
 ];
 
 export default function Hero() {
@@ -32,12 +40,37 @@ export default function Hero() {
   const scale = useTransform(scrollYProgress, [0, 1], [1, 1.12]);
   const overlayOpacity = useTransform(scrollYProgress, [0, 1], [1, 0.4]);
 
+  // Carrousel : avance d’une vidéo à l’autre avec fondu enchaîné.
+  const [active, setActive] = useState(0);
+  const videoRefs = useRef<(HTMLVideoElement | null)[]>([]);
+
+  useEffect(() => {
+    const id = setInterval(
+      () => setActive((i) => (i + 1) % heroVideos.length),
+      SLIDE_MS,
+    );
+    return () => clearInterval(id);
+  }, []);
+
+  useEffect(() => {
+    // Joue la vidéo active depuis le début, met les autres en pause.
+    videoRefs.current.forEach((v, i) => {
+      if (!v) return;
+      if (i === active) {
+        v.currentTime = 0;
+        v.play().catch(() => {});
+      } else {
+        v.pause();
+      }
+    });
+  }, [active]);
+
   return (
     <section
       ref={ref}
       className="relative flex min-h-[100dvh] flex-col overflow-hidden bg-green-darkest text-cream"
     >
-      {/* Background image */}
+      {/* Background — carrousel vidéo */}
       <motion.div
         style={{ y, scale }}
         initial={reduce ? false : { scale: 1.18, opacity: 0 }}
@@ -45,14 +78,25 @@ export default function Hero() {
         transition={{ duration: 1.6, ease: EASE }}
         className="absolute inset-0"
       >
-        <Image
-          src="/stock/steel.jpg"
-          alt="Ingénieur concevant des plans de structure"
-          fill
-          priority
-          sizes="100vw"
-          className="object-cover object-center"
-        />
+        {heroVideos.map((src, i) => (
+          <video
+            key={src}
+            ref={(el) => {
+              videoRefs.current[i] = el;
+            }}
+            autoPlay={i === 0}
+            muted
+            loop
+            playsInline
+            poster="/stock/steel.jpg"
+            aria-hidden
+            className={`absolute inset-0 size-full object-cover object-center transition-opacity duration-[1400ms] ease-[cubic-bezier(0.16,1,0.3,1)] ${
+              i === active ? "opacity-100" : "opacity-0"
+            }`}
+          >
+            <source src={src} type="video/mp4" />
+          </video>
+        ))}
       </motion.div>
 
       {/* Legibility + brand wash */}

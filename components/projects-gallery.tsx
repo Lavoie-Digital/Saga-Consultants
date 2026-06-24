@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { AnimatePresence, motion, LayoutGroup } from "motion/react";
-import ProjectCard from "@/components/project-card";
+import ProjectTile from "@/components/project-tile";
 import { projects } from "@/lib/projects";
 import { sectors } from "@/lib/site";
 
@@ -51,7 +51,7 @@ export default function ProjectsGallery() {
       <LayoutGroup>
         <motion.div
           layout
-          className="grid gap-x-8 gap-y-14 sm:grid-cols-2 lg:grid-cols-3"
+          className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4"
         >
           <AnimatePresence mode="popLayout">
             {list.map((project) => (
@@ -63,10 +63,7 @@ export default function ProjectsGallery() {
                 exit={{ opacity: 0, scale: 0.96 }}
                 transition={{ duration: 0.5, ease: EASE }}
               >
-                <ProjectCard
-                  project={project}
-                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                />
+                <ProjectTile project={project} />
               </motion.div>
             ))}
           </AnimatePresence>

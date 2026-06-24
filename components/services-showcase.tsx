@@ -1,18 +1,11 @@
 "use client";
 
 import Link from "next/link";
-import {
-  motion,
-  useMotionValue,
-  useMotionTemplate,
-  useReducedMotion,
-} from "motion/react";
+import Image from "next/image";
+import { motion, useReducedMotion } from "motion/react";
 import {
   Compass,
   ClipboardText,
-  Waveform,
-  Ruler,
-  HardHat,
   ArrowUpRight,
   type Icon as PhosphorIcon,
 } from "@phosphor-icons/react";
@@ -21,9 +14,9 @@ import { services, type Service } from "@/lib/site";
 const EASE = [0.16, 1, 0.3, 1] as const;
 
 // One technical icon per service (engineering, not abstract).
-const ICONS = [Compass, ClipboardText, Waveform, Ruler, HardHat];
+const ICONS = [Compass, ClipboardText];
 
-function SpotlightCard({
+function FeatureRow({
   service,
   Icon,
   i,
@@ -35,55 +28,61 @@ function SpotlightCard({
   total: string;
 }) {
   const reduce = useReducedMotion();
-  const mx = useMotionValue(0);
-  const my = useMotionValue(0);
-  const spotlight = useMotionTemplate`radial-gradient(300px circle at ${mx}px ${my}px, rgba(106,80,58,0.13), transparent 72%)`;
+  const flip = i % 2 === 1;
 
   return (
     <motion.div
-      onMouseMove={(e) => {
-        const r = e.currentTarget.getBoundingClientRect();
-        mx.set(e.clientX - r.left);
-        my.set(e.clientY - r.top);
-      }}
       initial={reduce ? false : { opacity: 0, y: 26 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "0px 0px -10% 0px" }}
-      transition={{ duration: 0.7, ease: EASE, delay: i * 0.07 }}
-      className="group relative flex flex-col overflow-hidden rounded-sm border border-line bg-cream p-8 transition-colors duration-500 hover:border-brown/45 md:p-10"
+      transition={{ duration: 0.7, ease: EASE, delay: i * 0.05 }}
+      className="group grid items-stretch overflow-hidden rounded-sm border border-line bg-cream transition-colors duration-500 hover:border-brown/45 md:grid-cols-2"
     >
-      <motion.div
-        aria-hidden
-        style={{ background: spotlight }}
-        className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100"
-      />
-
-      <div className="relative flex items-start justify-between">
-        <span className="flex size-14 items-center justify-center rounded-sm border border-line-strong text-brown transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:-translate-y-0.5 group-hover:border-brown group-hover:bg-brown group-hover:text-cream">
-          <Icon weight="light" className="size-7" />
-        </span>
-        <span className="font-mono text-xs tracking-[0.1em] text-stone-400">
-          {service.index} <span className="text-stone-300">/ {total}</span>
-        </span>
+      {/* Image */}
+      <div
+        className={`relative aspect-[4/3] overflow-hidden bg-paper-2 md:aspect-auto md:min-h-[24rem] ${
+          flip ? "md:order-2" : ""
+        }`}
+      >
+        <Image
+          src={service.image}
+          alt={service.title}
+          fill
+          sizes="(max-width: 768px) 100vw, 50vw"
+          className="object-cover transition-transform duration-[1200ms] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-105"
+        />
+        <div className="absolute inset-0 bg-green-deep/10 transition-colors duration-500 group-hover:bg-green-deep/0" />
       </div>
 
-      <h3 className="relative mt-8 font-display text-[1.6rem] font-medium leading-[1.1] tracking-tight text-ink">
-        {service.title}
-      </h3>
-      <p className="relative mt-4 text-pretty text-[0.95rem] leading-relaxed text-stone-600">
-        {service.blurb}
-      </p>
+      {/* Content */}
+      <div className="flex flex-col p-8 md:p-12">
+        <div className="flex items-start justify-between">
+          <span className="flex size-14 items-center justify-center rounded-sm border border-line-strong text-brown transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:-translate-y-0.5 group-hover:border-brown group-hover:bg-brown group-hover:text-cream">
+            <Icon weight="light" className="size-7" />
+          </span>
+          <span className="font-mono text-xs tracking-[0.1em] text-stone-400">
+            {service.index} <span className="text-stone-300">/ {total}</span>
+          </span>
+        </div>
 
-      <ul className="relative mt-auto flex flex-wrap gap-1.5 pt-7">
-        {service.details.map((d) => (
-          <li
-            key={d}
-            className="rounded-full border border-line px-2.5 py-1 font-mono text-[0.6rem] uppercase tracking-[0.08em] text-stone-500 transition-colors duration-300 group-hover:border-brown/30"
-          >
-            {d}
-          </li>
-        ))}
-      </ul>
+        <h3 className="mt-8 font-display text-[1.8rem] font-medium leading-[1.1] tracking-tight text-ink md:text-[2rem]">
+          {service.title}
+        </h3>
+        <p className="mt-4 max-w-md text-pretty text-base leading-relaxed text-stone-600">
+          {service.blurb}
+        </p>
+
+        <ul className="mt-auto flex flex-wrap gap-1.5 pt-8">
+          {service.details.map((d) => (
+            <li
+              key={d}
+              className="rounded-full border border-line px-2.5 py-1 font-mono text-[0.6rem] uppercase tracking-[0.08em] text-stone-500 transition-colors duration-300 group-hover:border-brown/30"
+            >
+              {d}
+            </li>
+          ))}
+        </ul>
+      </div>
     </motion.div>
   );
 }
@@ -92,9 +91,9 @@ export default function ServicesShowcase() {
   const total = String(services.length).padStart(2, "0");
 
   return (
-    <div className="grid gap-4 md:grid-cols-2 md:gap-5">
+    <div className="flex flex-col gap-5">
       {services.map((s, i) => (
-        <SpotlightCard
+        <FeatureRow
           key={s.index}
           service={s}
           Icon={ICONS[i] ?? Compass}
@@ -103,29 +102,27 @@ export default function ServicesShowcase() {
         />
       ))}
 
-      {/* CTA tile completes the grid */}
+      {/* CTA band completes the section */}
       <motion.div
         initial={{ opacity: 0, y: 26 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: "0px 0px -10% 0px" }}
-        transition={{ duration: 0.7, ease: EASE, delay: services.length * 0.07 }}
+        transition={{ duration: 0.7, ease: EASE, delay: services.length * 0.05 }}
       >
         <Link
           href="/contact"
-          className="group relative flex h-full flex-col justify-between overflow-hidden rounded-sm bg-green-deep p-8 text-cream transition-colors duration-500 hover:bg-green-darkest md:p-10"
+          className="group flex flex-col justify-between gap-8 overflow-hidden rounded-sm bg-green-deep p-8 text-cream transition-colors duration-500 hover:bg-green-darkest sm:flex-row sm:items-center md:p-12"
         >
-          <span className="font-mono text-[0.62rem] uppercase tracking-[0.18em] text-powder">
-            Un mandat en tête ?
-          </span>
-          <span className="mt-10 flex items-end justify-between gap-4">
-            <span className="font-display text-[1.7rem] font-medium leading-[1.05] tracking-tight">
-              Discutons de
-              <br />
-              votre projet.
+          <div>
+            <span className="font-mono text-[0.62rem] uppercase tracking-[0.18em] text-powder">
+              Un mandat en tête ?
             </span>
-            <span className="flex size-12 shrink-0 items-center justify-center rounded-full border border-line-invert transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:translate-x-1 group-hover:-translate-y-1 group-hover:bg-cream group-hover:text-green-deep">
-              <ArrowUpRight weight="light" className="size-5" />
+            <span className="mt-4 block font-display text-[clamp(1.6rem,3vw,2.4rem)] font-medium leading-[1.05] tracking-tight">
+              Discutons de votre projet.
             </span>
+          </div>
+          <span className="flex size-14 shrink-0 items-center justify-center rounded-full border border-line-invert transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:translate-x-1 group-hover:-translate-y-1 group-hover:bg-cream group-hover:text-green-deep">
+            <ArrowUpRight weight="light" className="size-6" />
           </span>
         </Link>
       </motion.div>

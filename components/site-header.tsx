@@ -69,10 +69,11 @@ export default function SiteHeader() {
             <Wordmark light={light} />
 
             <nav className="hidden items-center gap-9 lg:flex">
-              {nav.slice(1).map((item) => {
+              {nav.map((item) => {
                 const active =
-                  pathname === item.href ||
-                  (item.href !== "/" && pathname.startsWith(item.href));
+                  item.href === "/"
+                    ? pathname === "/"
+                    : pathname === item.href || pathname.startsWith(item.href);
                 return (
                   <Link
                     key={item.href}
