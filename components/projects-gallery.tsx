@@ -1,57 +1,101 @@
 "use client";
 
-import { useState } from "react";
-import { AnimatePresence, motion, LayoutGroup } from "motion/react";
+import { useMemo, useState } from "react";
+import { AnimatePresence, LayoutGroup, motion } from "motion/react";
+import { X } from "@phosphor-icons/react";
 import ProjectTile from "@/components/project-tile";
-import { projects } from "@/lib/projects";
-import { sectors } from "@/lib/site";
+import FilterSelect, { type Option } from "@/components/filter-select";
+import {
+  filterProjects,
+  filterToQuery,
+  matchesFilter,
+  type ActiveFilter,
+  type FilterAxis,
+  type Project,
+} from "@/lib/projects";
+import { expertiseLabels, markets, serviceLabels } from "@/lib/site";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
-const filters = ["Tous", ...sectors] as const;
 
-export default function ProjectsGallery() {
-  const [active, setActive] = useState<(typeof filters)[number]>("Tous");
+const AXES: { axis: FilterAxis; label: string; options: readonly string[] }[] = [
+  { axis: "marches", label: "Marchés", options: markets },
+  { axis: "expertises", label: "Expertises", options: expertiseLabels },
+  { axis: "services", label: "Services", options: serviceLabels },
+];
 
-  const list =
-    active === "Tous"
-      ? projects
-      : projects.filter((p) => p.sector === active);
+export default function ProjectsGallery({ projects }: { projects: Project[] }) {
+  /* Les trois axes ne se croisent pas : un seul tri est actif à la fois. */
+  const [active, setActive] = useState<ActiveFilter>(null);
+  const [openAxis, setOpenAxis] = useState<FilterAxis | null>(null);
+
+  const list = filterProjects(active, projects);
+  const query = filterToQuery(active);
+
+  /* Compter les projets par valeur permet de griser les choix qui ne
+     donneraient rien — et d'annoncer d'avance l'ampleur du tri. */
+  const counts = useMemo(() => {
+    const out: Record<FilterAxis, Option[]> = {
+      marches: [],
+      expertises: [],
+      services: [],
+    };
+    for (const { axis, options } of AXES) {
+      out[axis] = options.map((value) => ({
+        value,
+        count: projects.filter((p) => matchesFilter(p, { axis, value })).length,
+      }));
+    }
+    return out;
+  }, [projects]);
 
   return (
     <div className="container-saga pb-24">
-      {/* Filter bar */}
-      <div className="sticky top-[68px] z-30 -mx-[clamp(1.25rem,5vw,5rem)] mb-12 border-b border-line bg-paper/85 px-[clamp(1.25rem,5vw,5rem)] py-4 backdrop-blur-xl">
-        <div className="flex flex-wrap gap-2">
-          {filters.map((f) => {
-            const isActive = f === active;
-            return (
-              <button
-                key={f}
-                type="button"
-                onClick={() => setActive(f)}
-                className={`relative rounded-full px-4 py-2 text-sm tracking-tight transition-colors duration-300 cursor-pointer ${
-                  isActive ? "text-paper" : "text-stone-500 hover:text-ink"
-                }`}
-              >
-                {isActive && (
-                  <motion.span
-                    layoutId="filter-pill"
-                    className="absolute inset-0 rounded-full bg-brown"
-                    transition={{ type: "spring", stiffness: 350, damping: 32 }}
-                  />
-                )}
-                <span className="relative z-10">{f}</span>
-              </button>
-            );
-          })}
+      {/* Barre de tri — trois menus, une seule ligne */}
+      <div className="sticky top-[72px] z-30 mb-10 bleed-gutter border-b border-line bg-paper/90 py-4 backdrop-blur-xl">
+        <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+          <div className="flex flex-col gap-2 sm:flex-row sm:flex-wrap sm:items-center sm:gap-2.5">
+            {AXES.map(({ axis, label }) => (
+              <FilterSelect
+                key={axis}
+                label={label}
+                options={counts[axis]}
+                value={active?.axis === axis ? active.value : null}
+                open={openAxis === axis}
+                onOpenChange={(o) => setOpenAxis(o ? axis : null)}
+                // Un seul axe à la fois : choisir ici remplace le tri courant.
+                onSelect={(value) => setActive(value ? { axis, value } : null)}
+              />
+            ))}
+          </div>
+
+          <div className="flex items-center gap-5">
+            <p className="font-mono text-[0.62rem] uppercase tracking-[0.18em] text-stone-400">
+              {list.length} projet{list.length > 1 ? "s" : ""}
+            </p>
+            <AnimatePresence>
+              {active && (
+                <motion.button
+                  type="button"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  onClick={() => setActive(null)}
+                  className="inline-flex items-center gap-1.5 font-mono text-[0.62rem] uppercase tracking-[0.18em] text-stone-500 transition-colors hover:text-ink cursor-pointer"
+                >
+                  Réinitialiser
+                  <X weight="bold" className="size-3" />
+                </motion.button>
+              )}
+            </AnimatePresence>
+          </div>
         </div>
       </div>
 
-      {/* Grid */}
+      {/* Grille — cinq de large, interlignes serrés */}
       <LayoutGroup>
         <motion.div
           layout
-          className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4"
+          className="grid grid-cols-2 gap-1.5 sm:grid-cols-3 lg:grid-cols-5"
         >
           <AnimatePresence mode="popLayout">
             {list.map((project) => (
@@ -63,7 +107,7 @@ export default function ProjectsGallery() {
                 exit={{ opacity: 0, scale: 0.96 }}
                 transition={{ duration: 0.5, ease: EASE }}
               >
-                <ProjectTile project={project} />
+                <ProjectTile project={project} query={query} />
               </motion.div>
             ))}
           </AnimatePresence>

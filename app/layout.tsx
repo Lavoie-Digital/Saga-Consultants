@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
 import { Archivo, Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import SiteHeader from "@/components/site-header";
-import SiteFooter from "@/components/site-footer";
 
 const geist = Geist({
   variable: "--font-geist",
@@ -31,7 +29,7 @@ export const metadata: Metadata = {
     template: "%s — SAGA Consultants",
   },
   description:
-    "Firme de génie-conseil spécialisée en structures. La beauté des solutions simples — conception intégrée, coordination et expertise structurale au Saguenay–Lac-Saint-Jean.",
+    "Firme de génie-conseil spécialisée en structures. Nous considérons l’ensemble d’un projet, pas seulement nos feuilles de calcul, pour maximiser notre valeur ajoutée. Bureaux à Saguenay et à Lévis.",
   keywords: [
     "génie-conseil",
     "ingénierie structurale",
@@ -43,7 +41,7 @@ export const metadata: Metadata = {
   ],
   openGraph: {
     title: "SAGA Consultants — Génie-conseil en structures",
-    description: "La beauté des solutions simples.",
+    description: "Un savoir-faire qui va au-delà des plans.",
     locale: "fr_CA",
     type: "website",
     siteName: "SAGA Consultants",
@@ -61,12 +59,15 @@ export default function RootLayout({
   return (
     <html
       lang="fr-CA"
+      // Le défilement doux est voulu pour les ancres, pas pour les changements
+      // de route — cet attribut dit à Next.js de le neutraliser à la navigation.
+      data-scroll-behavior="smooth"
       className={`${geist.variable} ${geistMono.variable} ${archivo.variable}`}
     >
+      {/* Le layout racine ne pose que la page : l'en-tête et le pied de page
+          publics appartiennent au groupe (site), pas à l'espace privé. */}
       <body className="grain min-h-[100dvh] bg-paper text-ink antialiased">
-        <SiteHeader />
-        <main>{children}</main>
-        <SiteFooter />
+        {children}
       </body>
     </html>
   );

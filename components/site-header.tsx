@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 import {
@@ -14,28 +15,23 @@ import { nav, site } from "@/lib/site";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 
-function Wordmark({ light = false }: { light?: boolean }) {
+/**
+ * Le logo officiel n'existe qu'en version claire. Sur fond crème (en-tête
+ * replié), `brightness-0` le ramène au noir plutôt que d'inventer une
+ * deuxième version du fichier. À remplacer si SAGA fournit un logo foncé.
+ */
+function Logo({ light = false, className = "h-8" }: { light?: boolean; className?: string }) {
   return (
-    <Link
-      href="/"
-      aria-label="SAGA Consultants — accueil"
-      className="flex items-baseline gap-2"
-    >
-      <span
-        className={`font-display text-2xl font-medium leading-none tracking-tight transition-colors duration-300 ${
-          light ? "text-cream" : "text-ink"
-        }`}
-      >
-        SAGA
-      </span>
-      <span
-        className={`font-mono text-[0.6rem] uppercase tracking-[0.3em] transition-colors duration-300 ${
-          light ? "text-cream/60" : "text-stone-400"
-        }`}
-      >
-        Consultants
-      </span>
-    </Link>
+    <Image
+      src="/logo.webp"
+      alt="SAGA Consultants"
+      width={1500}
+      height={559}
+      priority
+      className={`w-auto transition-[filter,opacity] duration-500 ${className} ${
+        light ? "" : "brightness-0 opacity-90"
+      }`}
+    />
   );
 }
 
@@ -66,7 +62,9 @@ export default function SiteHeader() {
           }`}
         >
           <div className="container-saga flex items-center justify-between py-5">
-            <Wordmark light={light} />
+            <Link href="/" aria-label="SAGA Consultants — accueil" className="shrink-0">
+              <Logo light={light} />
+            </Link>
 
             <nav className="hidden items-center gap-9 lg:flex">
               {nav.map((item) => {
@@ -96,7 +94,7 @@ export default function SiteHeader() {
                 href="/contact"
                 className="ml-1 inline-flex items-center rounded-full bg-brown px-5 py-2 text-sm tracking-tight text-cream transition-colors duration-300 hover:bg-brown-deep cursor-pointer"
               >
-                Démarrer un projet
+                Nous joindre
               </Link>
             </nav>
 
@@ -133,9 +131,7 @@ export default function SiteHeader() {
           >
             <div className="container-saga flex h-full flex-col">
               <div className="flex items-center justify-between py-5">
-                <span className="font-display text-2xl tracking-tight text-cream">
-                  SAGA
-                </span>
+                <Logo light />
                 <button
                   type="button"
                   onClick={() => setOpen(false)}
@@ -150,22 +146,28 @@ export default function SiteHeader() {
               </div>
 
               <nav className="flex flex-1 flex-col justify-center gap-1">
-                {nav.map((item, i) => (
-                  <motion.div
-                    key={item.href}
-                    initial={{ opacity: 0, y: 30 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.1 + i * 0.06, ease: EASE, duration: 0.6 }}
-                  >
-                    <Link
-                      href={item.href}
-                      onClick={() => setOpen(false)}
-                      className="block border-b border-line-invert py-5 font-display text-[clamp(2.25rem,9vw,4.5rem)] font-medium leading-none tracking-tight text-cream transition-colors hover:text-powder"
+                {[...nav, { label: "Nous joindre", href: "/contact" }].map(
+                  (item, i) => (
+                    <motion.div
+                      key={item.href}
+                      initial={{ opacity: 0, y: 30 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{
+                        delay: 0.1 + i * 0.06,
+                        ease: EASE,
+                        duration: 0.6,
+                      }}
                     >
-                      {item.label}
-                    </Link>
-                  </motion.div>
-                ))}
+                      <Link
+                        href={item.href}
+                        onClick={() => setOpen(false)}
+                        className="block border-b border-line-invert py-5 font-display text-[clamp(2.25rem,9vw,4.5rem)] font-medium leading-none tracking-tight text-cream transition-colors hover:text-powder"
+                      >
+                        {item.label}
+                      </Link>
+                    </motion.div>
+                  ),
+                )}
               </nav>
 
               <div className="flex flex-col gap-1 py-8 font-mono text-xs uppercase tracking-[0.15em] text-powder">

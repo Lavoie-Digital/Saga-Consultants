@@ -1,5 +1,5 @@
-import Image from "next/image";
 import { Reveal } from "@/components/anim";
+import HeroBackdrop from "@/components/hero-backdrop";
 
 export default function PageHero({
   eyebrow,
@@ -7,24 +7,21 @@ export default function PageHero({
   intro,
   image,
   imageAlt,
+  children,
 }: {
   eyebrow: string;
   titleLines: string[];
   intro?: string;
-  image: string;
+  /** Une image, ou plusieurs pour un fondu enchaîné. */
+  image: string | string[];
   imageAlt: string;
+  children?: React.ReactNode;
 }) {
+  const images = Array.isArray(image) ? image : [image];
+
   return (
     <header className="relative isolate overflow-hidden bg-green-darkest text-cream">
-      {/* Generic background image */}
-      <Image
-        src={image}
-        alt={imageAlt}
-        fill
-        priority
-        sizes="100vw"
-        className="object-cover object-center"
-      />
+      <HeroBackdrop images={images} alt={imageAlt} />
       <div className="absolute inset-0 bg-gradient-to-t from-green-darkest via-green-darkest/75 to-green-darkest/45" />
       <div className="absolute inset-0 bg-green-deep/35 mix-blend-multiply" />
 
@@ -46,11 +43,13 @@ export default function PageHero({
 
         {intro && (
           <Reveal delay={0.1}>
-            <p className="mt-6 max-w-xl text-pretty text-base leading-relaxed text-cream/85">
+            <p className="mt-6 max-w-2xl text-pretty text-base leading-relaxed text-cream/85 md:text-lg">
               {intro}
             </p>
           </Reveal>
         )}
+
+        {children}
       </div>
     </header>
   );

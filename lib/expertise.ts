@@ -1,95 +1,94 @@
 import type { Icon as PhosphorIcon } from "@phosphor-icons/react";
 import {
-  Cube,
+  Tree,
+  ArrowsClockwise,
+  TreeStructure,
+  Wrench,
   Blueprint,
-  Buildings,
-  Waveform,
-  Ruler,
-  HardHat,
+  Sparkle,
+  Intersect,
+  Cube,
+  Wall,
+  Path,
 } from "@phosphor-icons/react/dist/ssr";
+import { expertiseLabels, type ExpertiseLabel } from "./site";
 
 export type Expertise = {
-  n: string;
-  title: string;
+  label: ExpertiseLabel;
   blurb: string;
-  details: string[];
   icon: PhosphorIcon;
 };
 
+/* Le type de structures que nous maîtrisons.
+   Les libellés et leur ordre viennent du registre de projets : ils sont
+   classés du plus au moins fréquent dans nos mandats. */
 export const expertises: Expertise[] = [
   {
-    n: "01",
-    title: "Modulaire",
+    label: "Ossatures légères de bois",
     blurb:
-      "Conception de structures préfabriquées et modulaires — pensées pour la rapidité d’assemblage, la répétabilité et un chantier maîtrisé.",
-    details: [
-      "Préfabrication et modules",
-      "Répétabilité et tolérances",
-      "Assemblage rapide en chantier",
-    ],
-    icon: Cube,
+      "Multirésidentiel et bâtiments légers, optimisés pour le montage, la préfabrication et le coût.",
+    icon: Tree,
   },
   {
-    n: "02",
-    title: "Structure",
+    label: "Rétrofit structural",
     blurb:
-      "Calcul et dimensionnement de charpentes en acier, béton et bois, du concept aux plans d’exécution et à la surveillance de chantier.",
-    details: [
-      "Acier, béton et bois",
-      "Plans d’exécution",
-      "Surveillance de chantier",
-    ],
+      "Renforcement, mise aux normes et reprise en sous-œuvre de bâtiments existants, souvent en exploitation.",
+    icon: ArrowsClockwise,
+  },
+  {
+    label: "Lamellé-collé / Bois massif",
+    blurb:
+      "Bois d’ingénierie apparent, là où la structure fait partie de l’architecture.",
+    icon: TreeStructure,
+  },
+  {
+    label: "Maintien d’actifs",
+    blurb:
+      "Inspection, diagnostic et planification des travaux qui prolongent la vie utile d’un bâtiment.",
+    icon: Wrench,
+  },
+  {
+    label: "Charpentes d’acier",
+    blurb:
+      "Ossatures et assemblages d’acier, des portées courantes aux grandes travées libres de colonnes.",
     icon: Blueprint,
   },
   {
-    n: "03",
-    title: "Bâtiment",
+    label: "Hors-normes",
     blurb:
-      "Ingénierie complète du bâtiment — multirésidentiel, commercial, institutionnel et industriel, en conception intégrée avec tous les intervenants.",
-    details: [
-      "Multirésidentiel et commercial",
-      "Institutionnel et industriel",
-      "Conception intégrée (BIM)",
-    ],
-    icon: Buildings,
+      "Ce qui ne rentre dans aucune case : géométries, charges, accès ou usages inhabituels.",
+    icon: Sparkle,
   },
   {
-    n: "04",
-    title: "Mise à niveau parasismique",
+    label: "Structures hybrides",
     blurb:
-      "Remettre les structures existantes aux normes actuelles de résistance et de sismicité.",
-    details: [
-      "Renforcement structural",
-      "Mise aux normes parasismiques",
-      "Réhabilitation du patrimoine bâti",
-    ],
-    icon: Waveform,
+      "Acier, bois et béton combinés dans un même ouvrage, chacun là où il est le plus efficace.",
+    icon: Intersect,
   },
   {
-    n: "05",
-    title: "Plans et devis",
+    label: "Modulaire volumétrique",
     blurb:
-      "Concevoir et documenter la structure de bâtiments neufs ou existants, du concept au chantier.",
-    details: [
-      "Bâtiments neufs et agrandissements",
-      "Plans, devis et détails d’exécution",
-      "Coordination interdisciplinaire (BIM)",
-    ],
-    icon: Ruler,
+      "Modules préfabriqués en usine : répétabilité, tolérances et levage maîtrisés.",
+    icon: Cube,
   },
   {
-    n: "06",
-    title: "Surveillance de travaux",
+    label: "Coffrage isolant",
     blurb:
-      "Assurer que ce qui est bâti reflète fidèlement ce qui a été conçu, sur le terrain.",
-    details: [
-      "Surveillance de chantier",
-      "Contrôle de la conformité",
-      "Attestations de conformité",
-    ],
-    icon: HardHat,
+      "Murs en blocs de coffrage à béton isolé, pour l’enveloppe comme pour la structure.",
+    icon: Wall,
+  },
+  {
+    label: "Exécutions complexes",
+    blurb:
+      "Séquences de construction, ouvrages temporaires et contraintes de chantier serrées.",
+    icon: Path,
   },
 ];
 
-/* Les trois premières sont mises en avant sur le landing. */
-export const featuredExpertises = expertises.slice(0, 3);
+/* Garde-fou : si le registre change, la liste ci-dessus doit suivre. */
+const missing = expertiseLabels.filter(
+  (l) => !expertises.some((e) => e.label === l),
+);
+if (process.env.NODE_ENV !== "production" && missing.length > 0) {
+  console.warn("Expertises sans description :", missing.join(", "));
+}

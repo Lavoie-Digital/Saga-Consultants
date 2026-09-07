@@ -1,82 +1,106 @@
+export type Office = {
+  id: string;
+  city: string;
+  address: string;
+  locality: string;
+  /** Lien vers l'épingle Google Maps. */
+  mapsUrl: string;
+  /** Coordonnées de l'épingle dans le repère de `QUEBEC_VIEWBOX`. */
+  pin: { x: number; y: number };
+};
+
+/** Cadrage du tracé « qc » de `canada-map`, resserré sur la province. */
+export const QUEBEC_VIEWBOX = "590 405 319 372";
+
+/* NOTE: l'adresse civique du bureau de Lévis reste à confirmer par SAGA —
+   la fiche pointe pour l'instant vers une recherche Google Maps nominative. */
+export const offices: Office[] = [
+  {
+    id: "saguenay",
+    city: "Saguenay",
+    address: "2438, rue Saint-Dominique",
+    locality: "Jonquière, QC  G7X 6K5",
+    mapsUrl:
+      "https://www.google.com/maps/search/?api=1&query=2438+rue+Saint-Dominique+Jonqui%C3%A8re+QC+G7X+6K5",
+    pin: { x: 753.4, y: 682.4 },
+  },
+  {
+    id: "levis",
+    city: "Lévis",
+    address: "Adresse à confirmer",
+    locality: "Lévis, QC",
+    mapsUrl:
+      "https://www.google.com/maps/search/?api=1&query=SAGA+Consultants+L%C3%A9vis+QC",
+    pin: { x: 765.2, y: 714.3 },
+  },
+];
+
 export const site = {
   name: "SAGA Consultants",
-  tagline: "La beauté des solutions simples",
-  shortPitch:
-    "Firme de génie-conseil spécialisée en structures.",
+  tagline: "Un savoir-faire qui va au-delà des plans",
+  shortPitch: "Firme de génie-conseil spécialisée en structures.",
+  longPitch:
+    "Firme de génie-conseil spécialisée en structures. Nous considérons l’ensemble d’un projet, pas seulement nos feuilles de calcul, pour maximiser notre valeur ajoutée.",
   contact: {
-    address: "2438, rue Saint-Dominique",
-    city: "Jonquière, QC  G7X 6K5",
     phone: "(581) 222-0225",
     phoneHref: "tel:+15812220225",
     email: "info@sagaconsultants.ca",
-    region: "Saguenay–Lac-Saint-Jean",
   },
   social: {
-    facebook: "https://www.facebook.com/",
-    linkedin: "https://www.linkedin.com/",
+    /* NOTE: page LinkedIn à confirmer par SAGA avant mise en ligne. */
+    linkedin: "https://www.linkedin.com/company/saga-consultants/",
+    facebook: "https://www.facebook.com/profile.php?id=100057437260102",
   },
 } as const;
 
+/** Bureau principal — utilisé pour les données structurées et le pied de page. */
+export const headOffice = offices[0];
+
 export const nav = [
   { label: "La Firme", href: "/" },
-  { label: "Services", href: "/services" },
-  { label: "Expertise", href: "/expertise" },
   { label: "Projets", href: "/projets" },
   { label: "Équipe", href: "/equipe" },
   { label: "Carrières", href: "/carrieres" },
-  { label: "Contact", href: "/contact" },
 ] as const;
 
-export type Service = {
-  index: string;
-  title: string;
-  blurb: string;
-  details: string[];
-  image: string;
-};
+/* ------------------------------------------------------------------
+   Taxonomies — les trois axes de tri de la page Projets.
+   ------------------------------------------------------------------ */
 
-export const services: Service[] = [
-  {
-    index: "01",
-    title: "Études préparatoires",
-    blurb:
-      "Analyser le potentiel structural d’un site ou d’un bâtiment avant la première ligne de plan.",
-    details: [
-      "Relevés et investigation de l’existant",
-      "Validation des hypothèses de charge",
-      "Esquisses de concept structural",
-    ],
-    image: "/centre-communautaire.webp",
-  },
-  {
-    index: "02",
-    title: "Rapports d’expertise",
-    blurb:
-      "Expertise structurale, études de faisabilité et évaluations post-désastre, signées et scellées.",
-    details: [
-      "Diagnostic d’intégrité structurale",
-      "Faisabilité technique et budgétaire",
-      "Évaluation post-sinistre",
-    ],
-    image: "/seminaire.webp",
-  },
-];
-
-export const sectors = [
-  "Multirésidentiel",
-  "Commercial",
+/* Reprises telles quelles du registre de projets — ce sont aussi les clés
+   de tri de la page Projets, elles doivent correspondre au caractère près. */
+export const markets = [
   "Institutionnel",
-  "Industriel",
-  "Hôtellerie",
-  "Récréatif",
-  "Patrimonial",
+  "Multilogement",
+  "Commercial",
+  "Scolaire",
+  "Tourisme",
+  "Municipal",
+  "Paramunicipal",
+  "Industriel / Énergie / Minier",
+  "Patrimoine",
+  "Communautés autochtones",
 ] as const;
 
-export type Sector = (typeof sectors)[number];
+export const serviceLabels = [
+  "Conception / Planification",
+  "Services durant l’exécution",
+  "Services consultatifs / Études préparatoires",
+  "Services aux entrepreneurs / Conception-construction",
+] as const;
 
-export const stats = [
-  { value: "150+", label: "Projets livrés" },
-  { value: "16", label: "Membres de l’équipe" },
-  { value: "2020", label: "Année de fondation" },
-  { value: "100 %", label: "Conception intégrée" },
-];
+export const expertiseLabels = [
+  "Ossatures légères de bois",
+  "Rétrofit structural",
+  "Lamellé-collé / Bois massif",
+  "Maintien d’actifs",
+  "Charpentes d’acier",
+  "Hors-normes",
+  "Structures hybrides",
+  "Modulaire volumétrique",
+  "Coffrage isolant",
+  "Exécutions complexes",
+] as const;
+export type Market = (typeof markets)[number];
+export type ServiceLabel = (typeof serviceLabels)[number];
+export type ExpertiseLabel = (typeof expertiseLabels)[number];

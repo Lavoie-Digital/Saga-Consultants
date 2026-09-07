@@ -1,0 +1,24 @@
+rules_version = '2';
+
+// Le site public lit Firestore côté serveur, avec le SDK admin — lequel
+// contourne ces règles. Elles ne régissent donc que les accès directs depuis
+// un navigateur, et la position par défaut est : tout est refusé.
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Les projets sont exposés par le serveur Next.js, pas lus par le client.
+    match /projects/{id} {
+      allow read, write: if false;
+    }
+
+    // Les demandes du formulaire de contact contiennent des renseignements
+    // personnels : jamais lisibles depuis le navigateur.
+    match /inquiries/{id} {
+      allow read, write: if false;
+    }
+
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

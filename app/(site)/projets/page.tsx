@@ -1,25 +1,33 @@
 import type { Metadata } from "next";
 import PageHero from "@/components/page-hero";
 import ProjectsGallery from "@/components/projects-gallery";
+import { getProjects } from "@/lib/projects-store";
 
 export const metadata: Metadata = {
   title: "Projets",
   description:
-    "Une sélection de projets structuraux réalisés par SAGA Consultants — multirésidentiel, institutionnel, commercial, industriel, hôtellerie et patrimonial.",
+    "Des centaines de réalisations en génie des structures — multirésidentiel, institutionnel, commercial, industriel, hôtellerie, récréatif et patrimonial.",
 };
 
-export default function ProjetsPage() {
+/* Les projets viennent de Firestore une fois l’espace admin en service :
+   on regénère la page au plus tard toutes les 5 minutes, et tout de suite
+   après une modification (revalidatePath depuis l’admin). */
+export const revalidate = 300;
+
+export default async function ProjetsPage() {
+  const projects = await getProjects();
+
   return (
     <>
       <PageHero
-        eyebrow="Projets"
+        eyebrow="Nos accomplissements"
         titleLines={["Structures réalisées"]}
-        intro="Du logement à l’institutionnel, chaque projet est une réponse structurale à un programme et à un lieu."
-        image="/stock/construction.jpg"
-        imageAlt="Charpente d’acier d’un bâtiment en construction avec grues"
+        intro="Avec des centaines de réalisations depuis sa fondation, SAGA a su créer de la valeur pour ses clients dans plusieurs projets dont nous sommes particulièrement fiers. Voici quelques-unes de ces réussites."
+        image="/projets/24125/1.webp"
+        imageAlt="Complexe Laforest — enveloppe en ossature légère de bois"
       />
       <div className="pt-4 md:pt-8" />
-      <ProjectsGallery />
+      <ProjectsGallery projects={projects} />
     </>
   );
 }
