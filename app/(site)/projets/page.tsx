@@ -21,7 +21,7 @@ export default async function ProjetsPage() {
     <>
       <PageHero
         eyebrow="Nos accomplissements"
-        titleLines={["Structures réalisées"]}
+        titleLines={["Structures conçues"]}
         intro="Avec des centaines de réalisations depuis sa fondation, SAGA a su créer de la valeur pour ses clients dans plusieurs projets dont nous sommes particulièrement fiers. Voici quelques-unes de ces réussites."
         image="/projets/24125/1.webp"
         imageAlt="Complexe Laforest — enveloppe en ossature légère de bois"

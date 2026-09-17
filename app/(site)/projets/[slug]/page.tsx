@@ -61,11 +61,12 @@ export default async function ProjectPage({
 
   return (
     <>
+      {/* Le titre vit dans la colonne de texte, pas sur l'image. */}
       <PageHero
         eyebrow={project.markets.join(" · ")}
-        titleLines={[project.title]}
         image={project.image}
         imageAlt={project.title}
+        minHeight="clamp(20rem, 46vh, 32rem)"
       />
 
       <section className="container-saga py-16 md:py-24">
@@ -82,18 +83,55 @@ export default async function ProjectPage({
           </Link>
         </Reveal>
 
-        <div className="mt-10 grid gap-12 md:grid-cols-12 md:gap-16">
-          {/* Description sommaire */}
+        <div className="mt-10 grid gap-12 md:grid-cols-12 md:gap-14">
+          {/* Description sommaire, puis la mosaïque de photos — les deux
+              partagent la même largeur de colonne. */}
           <div className="md:col-span-7">
             <Reveal>
-              <p className="text-pretty text-xl leading-relaxed text-stone-600 md:text-2xl md:leading-relaxed">
+              <h1 className="font-display text-[clamp(1.9rem,4.4vw,3.25rem)] font-medium uppercase leading-[1.04] tracking-tight text-ink text-balance">
+                {project.title}
+              </h1>
+            </Reveal>
+            <Reveal delay={0.05}>
+              <p className="mt-6 text-pretty text-base leading-relaxed text-stone-600 md:text-lg md:leading-relaxed">
                 {project.description}
               </p>
             </Reveal>
+
+            {project.gallery && project.gallery.length > 0 && (
+              <div className="mt-10 grid grid-cols-2 gap-1.5 md:mt-14">
+                {project.gallery.map((src, i) => {
+                  // Une tuile large toutes les trois : grande, deux demies,
+                  // grande — la mosaïque respire au lieu de s'aligner en grille.
+                  const wide = i % 3 === 0;
+                  return (
+                    <Reveal
+                      key={src}
+                      delay={(i % 3) * 0.05}
+                      className={wide ? "col-span-2" : ""}
+                    >
+                      <div
+                        className={`relative overflow-hidden rounded-sm bg-paper-2 ${
+                          wide ? "aspect-[16/10]" : "aspect-[4/3]"
+                        }`}
+                      >
+                        <Image
+                          src={src}
+                          alt={`${project.title} — vue ${i + 2}`}
+                          fill
+                          sizes="(max-width: 768px) 100vw, 40vw"
+                          className="object-cover"
+                        />
+                      </div>
+                    </Reveal>
+                  );
+                })}
+              </div>
+            )}
           </div>
 
-          {/* Fiche technique */}
-          <div className="md:col-span-5">
+          {/* Fiche technique — colonne étroite, collée au bord droit */}
+          <div className="md:col-span-4 md:col-start-9">
             <Reveal delay={0.05}>
               <dl>
                 <Row label="Client" value={project.client} />
@@ -113,25 +151,6 @@ export default async function ProjectPage({
             </Reveal>
           </div>
         </div>
-
-        {/* Photos */}
-        {project.gallery && project.gallery.length > 0 && (
-          <div className="mt-16 grid gap-1.5 md:mt-24 md:grid-cols-2">
-            {project.gallery.map((src, i) => (
-              <Reveal key={src} delay={(i % 2) * 0.05}>
-                <div className="relative aspect-[4/3] overflow-hidden rounded-sm bg-paper-2">
-                  <Image
-                    src={src}
-                    alt={`${project.title} — vue ${i + 2}`}
-                    fill
-                    sizes="(max-width: 768px) 100vw, 50vw"
-                    className="object-cover"
-                  />
-                </div>
-              </Reveal>
-            ))}
-          </div>
-        )}
       </section>
 
       {/* Suggestions — alignées sur le tri actif au moment du clic */}

@@ -26,16 +26,16 @@ export default function CarrieresPage() {
       />
 
       {/* Pourquoi rejoindre notre équipe — sous-sections successives */}
-      <section className="container-saga py-16 md:py-24">
+      <section className="container-saga py-12 md:py-16">
         <SectionLabel>Pourquoi rejoindre notre équipe ?</SectionLabel>
 
-        <div className="mt-12 flex flex-col gap-16 md:mt-16 md:gap-24">
+        <div className="mt-10 flex flex-col gap-12 md:mt-12 md:gap-16">
           {careerReasons.map((r, i) => {
             const Icon = r.icon;
             const flip = i % 2 === 1;
             return (
               <Reveal key={r.title}>
-                <div className="grid items-center gap-8 md:grid-cols-12 md:gap-14">
+                <div className="grid items-center gap-6 md:grid-cols-12 md:gap-12">
                   <div
                     className={`md:col-span-6 ${flip ? "md:order-2" : ""}`}
                   >
@@ -54,13 +54,13 @@ export default function CarrieresPage() {
                   <div className="md:col-span-6">
                     <Icon
                       weight="thin"
-                      className="size-10 text-brown"
+                      className="size-8 text-brown"
                       aria-hidden
                     />
-                    <h2 className="mt-5 font-display text-[clamp(1.5rem,2.8vw,2.25rem)] font-medium uppercase leading-[1.1] tracking-tight text-ink text-balance">
+                    <h2 className="mt-4 font-display text-[clamp(1.25rem,2.2vw,1.75rem)] font-medium uppercase leading-[1.1] tracking-tight text-ink text-balance">
                       {r.title}
                     </h2>
-                    <p className="mt-5 max-w-xl text-pretty text-base leading-relaxed text-stone-600 md:text-lg">
+                    <p className="mt-4 max-w-xl text-pretty text-[0.95rem] leading-relaxed text-stone-600 md:text-base">
                       {r.body}
                     </p>
                   </div>
@@ -76,6 +76,8 @@ export default function CarrieresPage() {
         src="/bureau/equipe-groupe.webp"
         alt="L’équipe de SAGA Consultants sur la terrasse du bureau"
         height="clamp(18rem, 30vw, 26rem)"
+        /* L'équipe est dans le bas du cliché : on cadre par là. */
+        objectPosition="center 82%"
       >
         <div className="flex w-full flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
           <h2 className="font-display text-[clamp(1.75rem,4vw,3rem)] font-medium uppercase leading-[1.05] tracking-tight text-cream text-balance">
@@ -122,12 +124,12 @@ export default function CarrieresPage() {
             href="/contact"
             className="group mt-10 grid items-stretch overflow-hidden rounded-sm border border-line bg-cream md:grid-cols-2"
           >
-            {/* Local vide du bureau. À remplacer si SAGA fournit une photo
-                de la salle de conférence vide. */}
+            {/* Salle de réunion meublée, avec du monde au travail — le
+                repli proposé par SAGA faute d'une photo de la salle vide. */}
             <div className="relative aspect-[4/3] overflow-hidden bg-paper-2 md:aspect-auto md:min-h-[22rem]">
               <Image
-                src="/bureau/local-vide-1.webp"
-                alt="Salle de réunion vide au bureau de SAGA Consultants"
+                src="/bureau/salle-conference.webp"
+                alt="Réunion dans la salle de conférence de SAGA Consultants"
                 fill
                 sizes="(max-width: 768px) 100vw, 50vw"
                 className="object-cover transition-transform duration-[1100ms] ease-[var(--ease-swing)] group-hover:scale-105"

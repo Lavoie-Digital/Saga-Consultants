@@ -14,11 +14,14 @@ export default function ParallaxBand({
   src,
   alt,
   height = "clamp(16rem, 34vw, 30rem)",
+  /** Zone de l'image à garder dans le cadre (valeur CSS object-position). */
+  objectPosition = "center",
   children,
 }: {
   src: string;
   alt: string;
   height?: string;
+  objectPosition?: string;
   children?: React.ReactNode;
 }) {
   const reduce = useReducedMotion();
@@ -43,7 +46,8 @@ export default function ParallaxBand({
           alt={alt}
           fill
           sizes="100vw"
-          className="object-cover object-center"
+          style={{ objectPosition }}
+          className="object-cover"
         />
       </motion.div>
       <div className="absolute inset-0 bg-green-darkest/45" />

@@ -1,11 +1,14 @@
 import { CANADA_REGIONS, CANADA_VIEWBOX } from "@/lib/canada-map";
 
-/** Provinces et territoires où SAGA a livré des mandats. */
-export const ACTIVE_REGIONS = ["qc", "bc", "nu", "on", "nl"] as const;
+/**
+ * Provinces et territoires où SAGA a livré des mandats. L'ordre est celui de
+ * l'affichage : le Québec d'abord, c'est le territoire principal.
+ */
+export const ACTIVE_REGIONS = ["qc", "on", "nl", "nu", "bc"] as const;
 
-export const activeRegionLabels = CANADA_REGIONS.filter((r) =>
-  (ACTIVE_REGIONS as readonly string[]).includes(r.code),
-).map((r) => r.label);
+export const activeRegionLabels = ACTIVE_REGIONS.map(
+  (code) => CANADA_REGIONS.find((r) => r.code === code)!.label,
+);
 
 /**
  * Carte du Canada décorative : les territoires desservis sont pleins,

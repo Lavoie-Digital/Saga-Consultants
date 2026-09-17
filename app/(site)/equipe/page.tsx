@@ -4,7 +4,7 @@ import PageHero from "@/components/page-hero";
 import SectionLabel from "@/components/section-label";
 import { Reveal } from "@/components/anim";
 import { ArrowLink } from "@/components/ui";
-import { memberKey, team, teamValues, type Member } from "@/lib/team";
+import { displayTeam, memberKey, teamValues, type Member } from "@/lib/team";
 
 export const metadata: Metadata = {
   title: "Équipe",
@@ -102,7 +102,7 @@ export default function EquipePage() {
         <SectionLabel
           right={
             <span className="font-mono text-xs tracking-[0.1em] text-brown">
-              {String(team.length).padStart(2, "0")}
+              {String(displayTeam.length).padStart(2, "0")}
             </span>
           }
         >
@@ -110,7 +110,7 @@ export default function EquipePage() {
         </SectionLabel>
 
         <div className="mt-10 grid grid-cols-2 gap-1.5 sm:grid-cols-3 lg:grid-cols-5">
-          {team.map((m, i) => (
+          {displayTeam.map((m, i) => (
             <Reveal key={memberKey(m)} delay={(i % 5) * 0.04}>
               <MemberCard m={m} />
             </Reveal>

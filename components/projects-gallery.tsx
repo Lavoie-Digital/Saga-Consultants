@@ -68,26 +68,22 @@ export default function ProjectsGallery({ projects }: { projects: Project[] }) {
             ))}
           </div>
 
-          <div className="flex items-center gap-5">
-            <p className="font-mono text-[0.62rem] uppercase tracking-[0.18em] text-stone-400">
-              {list.length} projet{list.length > 1 ? "s" : ""}
-            </p>
-            <AnimatePresence>
-              {active && (
-                <motion.button
-                  type="button"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  onClick={() => setActive(null)}
-                  className="inline-flex items-center gap-1.5 font-mono text-[0.62rem] uppercase tracking-[0.18em] text-stone-500 transition-colors hover:text-ink cursor-pointer"
-                >
-                  Réinitialiser
-                  <X weight="bold" className="size-3" />
-                </motion.button>
-              )}
-            </AnimatePresence>
-          </div>
+          {/* Le décompte de projets a été retiré : le tri parle de lui-même. */}
+          <AnimatePresence>
+            {active && (
+              <motion.button
+                type="button"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                onClick={() => setActive(null)}
+                className="inline-flex w-fit items-center gap-1.5 font-mono text-[0.62rem] uppercase tracking-[0.18em] text-stone-500 transition-colors hover:text-ink cursor-pointer"
+              >
+                Réinitialiser
+                <X weight="bold" className="size-3" />
+              </motion.button>
+            )}
+          </AnimatePresence>
         </div>
       </div>
 

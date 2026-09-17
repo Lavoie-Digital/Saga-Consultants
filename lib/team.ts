@@ -19,8 +19,7 @@ export const teamGroups = [
 export type Group = (typeof teamGroups)[number];
 
 /* Source : « Titres employés.xlsx » (2026-09-07).
-   L'ordre de ce tableau est celui de la grille de portraits : Aatu et Jaya,
-   les chiens du bureau, ferment la marche.
+   L'ordre de ce tableau n'est pas celui de l'affichage : voir `displayTeam`.
    À VALIDER : « CPI » est laissé tel quel (candidat·e à la profession
    d'ingénieur). Simon Gravel est en attente de portrait, donc pas encore
    dans la grille. */
@@ -155,16 +154,8 @@ export const team: Member[] = [
     group: "Administration",
     photo: "/team/mario-poirier.webp",
   },
-  {
-    firstName: "Marie-Claude",
-    lastName: "Tremblay",
-    /* À VALIDER : absente de la liste des titres, rôle repris de l'ancien site. */
-    role: "Adjointe administrative",
-    group: "Administration",
-    photo: "/team/marie-claude-tremblay.webp",
-  },
-
-  /* Les chiens du bureau — d'où « projets nichés » et « os-pérations ». */
+  /* Les chiens du bureau — d'où « projets nichés » et « os-pérations ».
+     Ils sont mêlés aux autres dans la grille, comme demandé. */
   {
     firstName: "Aatu",
     role: "Coordonnateur des projets nichés",
@@ -182,6 +173,37 @@ export const team: Member[] = [
 /** Clé stable — deux Simon dans l'équipe, le prénom seul ne suffit pas. */
 export const memberKey = (m: Member) =>
   `${m.firstName} ${m.lastName ?? ""}`.trim();
+
+/* Les associés ouvrent la grille ; le reste est brassé sans tenir compte du
+   rôle, chiens du bureau compris. Le brassage est volontairement déterministe
+   (générateur à graine fixe) : ça donne un ordre qui ne ressemble pas à un
+   organigramme, mais qui reste identique d'un rendu à l'autre — sinon la
+   grille sauterait à chaque rechargement, et le serveur et le navigateur
+   afficheraient deux ordres différents. */
+const LEAD = ["Simon Savard", "Marc-Olivier Gagnon"];
+
+function shuffled<T>(items: T[], seed: number): T[] {
+  const out = [...items];
+  let state = seed;
+  const next = () => {
+    // Générateur congruentiel linéaire — suffisant pour brasser une liste.
+    state = (state * 1664525 + 1013904223) % 4294967296;
+    return state / 4294967296;
+  };
+  for (let i = out.length - 1; i > 0; i--) {
+    const j = Math.floor(next() * (i + 1));
+    [out[i], out[j]] = [out[j], out[i]];
+  }
+  return out;
+}
+
+export const displayTeam: Member[] = [
+  ...LEAD.map((key) => team.find((m) => memberKey(m) === key)!),
+  ...shuffled(
+    team.filter((m) => !LEAD.includes(memberKey(m))),
+    20260917,
+  ),
+];
 
 /* Les règles du jeu qui définissent notre équipe. */
 export const teamValues = [

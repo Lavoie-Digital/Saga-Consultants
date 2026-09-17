@@ -12,25 +12,24 @@ export type Office = {
 /** Cadrage du tracé « qc » de `canada-map`, resserré sur la province. */
 export const QUEBEC_VIEWBOX = "590 405 319 372";
 
-/* NOTE: l'adresse civique du bureau de Lévis reste à confirmer par SAGA —
-   la fiche pointe pour l'instant vers une recherche Google Maps nominative. */
 export const offices: Office[] = [
   {
     id: "saguenay",
     city: "Saguenay",
     address: "2438, rue Saint-Dominique",
     locality: "Jonquière, QC  G7X 6K5",
+    /* Fiche Google Maps de l'entreprise, fournie par SAGA. */
     mapsUrl:
-      "https://www.google.com/maps/search/?api=1&query=2438+rue+Saint-Dominique+Jonqui%C3%A8re+QC+G7X+6K5",
+      "https://www.google.com/maps/place/SAGA+Consultants+Inc/@48.4110255,-71.2584884,17z/data=!4m15!1m8!3m7!1s0x4cc029218f0fe449:0x8c2c311df47624d9!2s2438+Rue+Saint-Dominique,+Saguenay,+QC+G7X+6K5!3b1!8m2!3d48.4110255!4d-71.2559135!16s%2Fg%2F11xp9324c8!3m5!1s0x4cc0299b0615595f:0x6b8b4b6581624d63!8m2!3d48.4110345!4d-71.2559019!16s%2Fg%2F11qpgth16y",
     pin: { x: 753.4, y: 682.4 },
   },
   {
     id: "levis",
     city: "Lévis",
-    address: "Adresse à confirmer",
-    locality: "Lévis, QC",
+    address: "1190b, rue Courchevel, 4e étage",
+    locality: "Lévis, QC  G6W 0M6",
     mapsUrl:
-      "https://www.google.com/maps/search/?api=1&query=SAGA+Consultants+L%C3%A9vis+QC",
+      "https://www.google.com/maps/search/?api=1&query=1190b+rue+Courchevel+L%C3%A9vis+QC+G6W+0M6",
     pin: { x: 765.2, y: 714.3 },
   },
 ];
@@ -47,8 +46,7 @@ export const site = {
     email: "info@sagaconsultants.ca",
   },
   social: {
-    /* NOTE: page LinkedIn à confirmer par SAGA avant mise en ligne. */
-    linkedin: "https://www.linkedin.com/company/saga-consultants/",
+    linkedin: "https://www.linkedin.com/company/saga-consultants-senc/",
     facebook: "https://www.facebook.com/profile.php?id=100057437260102",
   },
 } as const;

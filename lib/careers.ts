@@ -38,7 +38,7 @@ export const careerReasons: CareerReason[] = [
     title: "Des espaces qu’on aime",
     body: "Télétravail partiel permis, mais on a quand même cru bon d’organiser nos bureaux pour aimer venir y travailler. L’ambiance ici est conviviale, lumineuse et simple.",
     icon: Armchair,
-    image: "/bureau/salle-conference.webp",
+    image: "/bureau/bureau-ambiance.webp",
   },
   {
     title: "On veut te voir grandir",

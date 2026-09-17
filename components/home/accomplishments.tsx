@@ -66,9 +66,9 @@ export default async function Accomplishments() {
         <ProjectsMarquee projects={featuredProjects} />
       </div>
 
-      <div className="container-saga pb-16 md:pb-24">
+      <div className="container-saga pb-8 md:pb-10">
         <Reveal>
-          <div className="mt-12 border-t border-line-invert pt-7">
+          <div className="mt-10 border-t border-line-invert pt-6">
             <Link
               href="/projets"
               className="group inline-flex items-center gap-2 text-sm font-medium tracking-tight text-cream transition-colors duration-300 hover:text-powder"

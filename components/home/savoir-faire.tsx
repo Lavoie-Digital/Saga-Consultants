@@ -28,8 +28,10 @@ export default function SavoirFaire() {
         <Reveal>
           <p className="mt-10 max-w-3xl text-pretty text-lg leading-relaxed text-stone-600 md:text-xl">
             SAGA travaille avec les donneurs d’ouvrage publics et privés — des
-            concepteurs de structures curieux, qui s’intéressent au projet
-            autant qu’à la charpente.
+            concepteurs de structures curieux qui comprennent les réalités de
+            la gestion de projet, du financement, des contraintes de temps, et
+            des besoins économiques de nos clients, et qui ont le jugement
+            pour bien les accompagner.
           </p>
         </Reveal>
 
