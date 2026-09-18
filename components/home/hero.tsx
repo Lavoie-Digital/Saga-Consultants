@@ -76,7 +76,9 @@ export default function Hero() {
             muted
             loop
             playsInline
-            poster="/stock/steel.jpg"
+            /* Pas de `poster` : une image d'attente sans lien avec la vidéo
+               apparaissait à chaque rechargement. Le vert profond de la
+               section fait la transition le temps que la vidéo s'affiche. */
             aria-hidden
             className={`absolute inset-0 size-full object-cover object-center transition-opacity duration-[1400ms] ease-[cubic-bezier(0.16,1,0.3,1)] ${
               i === active ? "opacity-100" : "opacity-0"
