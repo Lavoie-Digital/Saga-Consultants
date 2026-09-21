@@ -14,9 +14,35 @@ import { markets, offices, site } from "./site";
  * ici se retrouve citée telle quelle dans une réponse d'IA.
  */
 
-export const SITE_URL = (
-  process.env.NEXT_PUBLIC_SITE_URL || "https://www.sagaconsultants.ca"
-).replace(/\/$/, "");
+const FALLBACK_SITE_URL = "https://www.sagaconsultants.ca";
+
+/**
+ * Normalise l'URL du site.
+ *
+ * `NEXT_PUBLIC_SITE_URL` est saisie à la main dans la console de
+ * l'hébergeur, et le protocole y est souvent oublié (« sagaconsultants.ca »).
+ * Sans cette tolérance, `new URL()` lève et c'est tout le build qui tombe,
+ * pour une virgule dans un panneau de configuration. On complète ce qui
+ * manque, et on retombe sur le domaine par défaut si la valeur est
+ * inexploitable — le site reste déployable dans tous les cas.
+ */
+function normalizeSiteUrl(raw: string | undefined): string {
+  const value = (raw ?? "").trim();
+  if (!value) return FALLBACK_SITE_URL;
+
+  const withScheme = /^https?:\/\//i.test(value) ? value : `https://${value}`;
+  try {
+    // `origin` retire au passage le chemin et la barre oblique finale.
+    return new URL(withScheme).origin;
+  } catch {
+    console.warn(
+      `NEXT_PUBLIC_SITE_URL inexploitable (${value}) — repli sur ${FALLBACK_SITE_URL}.`,
+    );
+    return FALLBACK_SITE_URL;
+  }
+}
+
+export const SITE_URL = normalizeSiteUrl(process.env.NEXT_PUBLIC_SITE_URL);
 
 export const absoluteUrl = (path = "/") =>
   `${SITE_URL}${path.startsWith("/") ? path : `/${path}`}`;

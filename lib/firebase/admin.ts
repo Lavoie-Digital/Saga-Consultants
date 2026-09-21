@@ -30,6 +30,17 @@ const projectId = process.env.FIREBASE_PROJECT_ID;
 const clientEmail = process.env.FIREBASE_CLIENT_EMAIL;
 const privateKey = readPrivateKey();
 
+/**
+ * Bucket Cloud Storage. Une variable dédiée si elle existe, sinon l'ancien
+ * nom `NEXT_PUBLIC_*` pour ne pas casser un déploiement déjà configuré, et
+ * à défaut la convention Firebase — ce qui suffit dans la quasi-totalité
+ * des cas et évite une variable de plus à renseigner.
+ */
+const storageBucket =
+  process.env.FIREBASE_STORAGE_BUCKET ||
+  process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET ||
+  (projectId ? `${projectId}.firebasestorage.app` : undefined);
+
 /** Vrai quand les trois secrets du compte de service sont présents. */
 export const isFirebaseAdminConfigured = Boolean(
   projectId && clientEmail && privateKey,
@@ -52,7 +63,7 @@ function adminApp(): App {
     : initializeApp(
         {
           credential: cert({ projectId, clientEmail, privateKey }),
-          storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
+          storageBucket,
         },
         APP_NAME,
       );
