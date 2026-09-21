@@ -6,11 +6,14 @@ import SectionLabel from "@/components/section-label";
 import QuebecMap from "@/components/quebec-map";
 import { Reveal } from "@/components/anim";
 import { offices, site } from "@/lib/site";
+import JsonLd from "@/components/json-ld";
+import { breadcrumbLd, contactPageLd } from "@/lib/seo";
 
 export const metadata: Metadata = {
   title: "Nous joindre",
   description:
     "Joindre SAGA Consultants — bureaux de Saguenay et de Lévis. Téléphone (581) 222-0225, info@sagaconsultants.ca.",
+  alternates: { canonical: "/contact" },
 };
 
 const labelCls =
@@ -19,6 +22,13 @@ const labelCls =
 export default function ContactPage() {
   return (
     <>
+      <JsonLd data={contactPageLd()} />
+      <JsonLd
+        data={breadcrumbLd([
+          { name: "Accueil", path: "/" },
+          { name: "Nous joindre", path: "/contact" },
+        ])}
+      />
       <PageHero
         eyebrow="Nous joindre"
         titleLines={["Parlons structure"]}

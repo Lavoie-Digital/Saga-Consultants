@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Archivo, Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import { SITE_URL } from "@/lib/seo";
 
 const geist = Geist({
   variable: "--font-geist",
@@ -23,7 +24,9 @@ const archivo = Archivo({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://www.sagaconsultants.ca"),
+  // Même source que le sitemap et les canonicals, pour qu'ils ne
+  // divergent jamais entre le local et la production.
+  metadataBase: new URL(SITE_URL),
   title: {
     default: "SAGA Consultants — Génie-conseil en structures",
     template: "%s — SAGA Consultants",

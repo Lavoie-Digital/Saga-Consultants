@@ -2,11 +2,14 @@ import type { Metadata } from "next";
 import PageHero from "@/components/page-hero";
 import ProjectsGallery from "@/components/projects-gallery";
 import { getProjects } from "@/lib/projects-store";
+import JsonLd from "@/components/json-ld";
+import { breadcrumbLd, projectListLd } from "@/lib/seo";
 
 export const metadata: Metadata = {
   title: "Projets",
   description:
     "Des centaines de réalisations en génie des structures — multirésidentiel, institutionnel, commercial, industriel, hôtellerie, récréatif et patrimonial.",
+  alternates: { canonical: "/projets" },
 };
 
 /* Les projets viennent de Firestore une fois l’espace admin en service :
@@ -19,6 +22,13 @@ export default async function ProjetsPage() {
 
   return (
     <>
+      <JsonLd data={projectListLd(projects)} />
+      <JsonLd
+        data={breadcrumbLd([
+          { name: "Accueil", path: "/" },
+          { name: "Projets", path: "/projets" },
+        ])}
+      />
       <PageHero
         eyebrow="Nos accomplissements"
         titleLines={["Structures conçues"]}

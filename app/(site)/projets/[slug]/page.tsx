@@ -8,6 +8,8 @@ import PageHero from "@/components/page-hero";
 import { Reveal } from "@/components/anim";
 import RelatedProjects from "@/components/related-projects";
 import { getProject, getProjects } from "@/lib/projects-store";
+import JsonLd from "@/components/json-ld";
+import { breadcrumbLd, projectLd } from "@/lib/seo";
 
 export const revalidate = 300;
 
@@ -27,6 +29,7 @@ export async function generateMetadata({
   return {
     title: project.title,
     description: project.description,
+    alternates: { canonical: `/projets/${project.slug}` },
     openGraph: {
       title: `${project.title} — SAGA Consultants`,
       description: project.description,
@@ -61,6 +64,15 @@ export default async function ProjectPage({
 
   return (
     <>
+      <JsonLd data={projectLd(project)} />
+      <JsonLd
+        data={breadcrumbLd([
+          { name: "Accueil", path: "/" },
+          { name: "Projets", path: "/projets" },
+          { name: project.title, path: `/projets/${project.slug}` },
+        ])}
+      />
+
       {/* Le titre vit dans la colonne de texte, pas sur l'image. */}
       <PageHero
         eyebrow={project.markets.join(" · ")}

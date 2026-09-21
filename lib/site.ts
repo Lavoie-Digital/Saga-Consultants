@@ -7,6 +7,13 @@ export type Office = {
   mapsUrl: string;
   /** Coordonnées de l'épingle dans le repère de `QUEBEC_VIEWBOX`. */
   pin: { x: number; y: number };
+  /* Champs éclatés pour les données structurées (schema.org PostalAddress). */
+  streetAddress: string;
+  addressLocality: string;
+  addressRegion: string;
+  postalCode: string;
+  /** Coordonnées réelles. Omises quand on ne les a pas vérifiées. */
+  geo?: { latitude: number; longitude: number };
 };
 
 /** Cadrage du tracé « qc » de `canada-map`, resserré sur la province. */
@@ -22,6 +29,12 @@ export const offices: Office[] = [
     mapsUrl:
       "https://www.google.com/maps/place/SAGA+Consultants+Inc/@48.4110255,-71.2584884,17z/data=!4m15!1m8!3m7!1s0x4cc029218f0fe449:0x8c2c311df47624d9!2s2438+Rue+Saint-Dominique,+Saguenay,+QC+G7X+6K5!3b1!8m2!3d48.4110255!4d-71.2559135!16s%2Fg%2F11xp9324c8!3m5!1s0x4cc0299b0615595f:0x6b8b4b6581624d63!8m2!3d48.4110345!4d-71.2559019!16s%2Fg%2F11qpgth16y",
     pin: { x: 753.4, y: 682.4 },
+    streetAddress: "2438, rue Saint-Dominique",
+    addressLocality: "Saguenay",
+    addressRegion: "QC",
+    postalCode: "G7X 6K5",
+    /* Reprises de la fiche Google Maps ci-dessus. */
+    geo: { latitude: 48.4110345, longitude: -71.2559019 },
   },
   {
     id: "levis",
@@ -31,6 +44,12 @@ export const offices: Office[] = [
     mapsUrl:
       "https://www.google.com/maps/search/?api=1&query=1190b+rue+Courchevel+L%C3%A9vis+QC+G6W+0M6",
     pin: { x: 765.2, y: 714.3 },
+    streetAddress: "1190b, rue Courchevel, 4e étage",
+    addressLocality: "Lévis",
+    addressRegion: "QC",
+    postalCode: "G6W 0M6",
+    /* Pas de `geo` : les coordonnées exactes de l'adresse ne sont pas
+       vérifiées, mieux vaut ne rien déclarer que déclarer faux. */
   },
 ];
 
@@ -45,6 +64,8 @@ export const site = {
     phoneHref: "tel:+15812220225",
     email: "info@sagaconsultants.ca",
   },
+  /** Lun–Ven, 8 h – 17 h. Repris tel quel sur la page Contact. */
+  hours: { opens: "08:00", closes: "17:00" },
   social: {
     linkedin: "https://www.linkedin.com/company/saga-consultants-senc/",
     facebook: "https://www.facebook.com/profile.php?id=100057437260102",

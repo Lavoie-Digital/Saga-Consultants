@@ -7,6 +7,7 @@ export const metadata: Metadata = {
   title: "Politique de confidentialité",
   description:
     "Comment SAGA Consultants recueille, utilise, conserve et protège les renseignements personnels transmis par son site web, conformément à la Loi 25.",
+  alternates: { canonical: "/politique-de-confidentialite" },
 };
 
 /* Rédigée pour la Loi 25 (Loi 64) — Loi sur la protection des renseignements

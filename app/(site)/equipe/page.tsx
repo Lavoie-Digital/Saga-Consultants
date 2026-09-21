@@ -5,11 +5,14 @@ import SectionLabel from "@/components/section-label";
 import { Reveal } from "@/components/anim";
 import { ArrowLink } from "@/components/ui";
 import { displayTeam, memberKey, teamValues, type Member } from "@/lib/team";
+import JsonLd from "@/components/json-ld";
+import { breadcrumbLd, employeesLd } from "@/lib/seo";
 
 export const metadata: Metadata = {
   title: "Équipe",
   description:
     "Une équipe de curieux, de minutieux et de faciles à approcher. Les visages qui font SAGA Consultants, jour après jour.",
+  alternates: { canonical: "/equipe" },
 };
 
 /* Photos prises au bureau, en fondu enchaîné — toutes avec du monde dedans. */
@@ -61,6 +64,13 @@ function MemberCard({ m }: { m: Member }) {
 export default function EquipePage() {
   return (
     <>
+      <JsonLd data={employeesLd()} />
+      <JsonLd
+        data={breadcrumbLd([
+          { name: "Accueil", path: "/" },
+          { name: "Équipe", path: "/equipe" },
+        ])}
+      />
       <PageHero
         eyebrow="Équipe"
         titleLines={["Les gens derrière notre travail"]}

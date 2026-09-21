@@ -7,16 +7,25 @@ import SectionLabel from "@/components/section-label";
 import ParallaxBand from "@/components/parallax-band";
 import { Reveal } from "@/components/anim";
 import { careerReasons, postings } from "@/lib/careers";
+import JsonLd from "@/components/json-ld";
+import { breadcrumbLd } from "@/lib/seo";
 
 export const metadata: Metadata = {
   title: "Carrières",
   description:
     "On mise sur ton autonomie et on te donne les ressources pour grandir. Six semaines de vacances dès l’arrivée, des projets variés et une équipe de touche-à-tout curieux.",
+  alternates: { canonical: "/carrieres" },
 };
 
 export default function CarrieresPage() {
   return (
     <>
+      <JsonLd
+        data={breadcrumbLd([
+          { name: "Accueil", path: "/" },
+          { name: "Carrières", path: "/carrieres" },
+        ])}
+      />
       <PageHero
         eyebrow="Carrières"
         titleLines={["Besoin de changer ta trajectoire ?"]}
