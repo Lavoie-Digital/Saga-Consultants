@@ -1,6 +1,12 @@
 export type Member = {
   firstName: string;
   lastName?: string;
+  /**
+   * Libellé de la vignette quand le prénom seul ne suffit pas. La grille
+   * n'affiche que les prénoms ; « Mario » tout court renvoyait à une blague
+   * de bureau, d'où son nom au complet.
+   */
+  displayName?: string;
   /** Titre exact fourni par SAGA. */
   role: string;
   group: Group;
@@ -133,11 +139,11 @@ export const team: Member[] = [
     photo: "/team/xavier-laroche.webp",
   },
   {
-    firstName: "Jean-David",
+    firstName: "Louis-David",
     lastName: "Pouliot",
     role: "Stagiaire en ingénierie",
     group: "Relève",
-    photo: "/team/jean-david-pouliot.webp",
+    photo: "/team/louis-david-pouliot.webp",
   },
   {
     firstName: "Justin",
@@ -150,6 +156,7 @@ export const team: Member[] = [
   {
     firstName: "Mario",
     lastName: "Poirier",
+    displayName: "Mario Poirier",
     role: "Technicien comptable / Coordonnateur administratif",
     group: "Administration",
     photo: "/team/mario-poirier.webp",
@@ -163,10 +170,10 @@ export const team: Member[] = [
     photo: "/team/aatu.webp",
   },
   {
-    firstName: "Jaya",
+    firstName: "Jaiia",
     role: "Directrice adjointe aux os-pérations",
     group: "Mascottes",
-    photo: "/team/jaya.webp",
+    photo: "/team/jaiia.webp",
   },
 ];
 
@@ -180,7 +187,7 @@ export const memberKey = (m: Member) =>
    organigramme, mais qui reste identique d'un rendu à l'autre — sinon la
    grille sauterait à chaque rechargement, et le serveur et le navigateur
    afficheraient deux ordres différents. */
-const LEAD = ["Simon Savard", "Marc-Olivier Gagnon"];
+const LEAD = ["Marc-Olivier Gagnon", "Simon Savard"];
 
 function shuffled<T>(items: T[], seed: number): T[] {
   const out = [...items];

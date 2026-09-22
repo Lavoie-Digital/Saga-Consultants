@@ -53,7 +53,7 @@ function MemberCard({ m }: { m: Member }) {
       <div className="absolute inset-0 bg-gradient-to-t from-green-deep/90 via-green-deep/20 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
       <div className="absolute inset-x-0 bottom-0 translate-y-3 p-4 opacity-0 transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:translate-y-0 group-hover:opacity-100">
         <p className="font-display text-base font-medium leading-tight tracking-tight text-paper">
-          {m.firstName}
+          {m.displayName ?? m.firstName}
         </p>
         <p className="mt-0.5 text-xs leading-snug text-paper/75">{m.role}</p>
       </div>
