@@ -173,48 +173,6 @@
     background: var(--color-line);
   }
 
-  /* Reflet du logo — un trait de lumière qui traverse, découpé à la forme du
-     logo par un masque. Le logo dessous est volontairement adouci pour que
-     le passage se lise comme un éclat. */
-  .logo-sheen {
-    -webkit-mask-image: url("/logo.webp");
-    mask-image: url("/logo.webp");
-    -webkit-mask-size: contain;
-    mask-size: contain;
-    -webkit-mask-repeat: no-repeat;
-    mask-repeat: no-repeat;
-    -webkit-mask-position: center;
-    mask-position: center;
-    background: linear-gradient(
-      100deg,
-      transparent 38%,
-      rgba(255, 255, 255, 0.35) 46%,
-      rgba(255, 255, 255, 0.95) 50%,
-      rgba(255, 255, 255, 0.35) 54%,
-      transparent 62%
-    );
-    background-size: 260% 100%;
-    background-repeat: no-repeat;
-    animation: logo-sheen 6s var(--ease-in-out-quint) 1.4s infinite;
-  }
-
-  @keyframes logo-sheen {
-    0% {
-      background-position: 175% 0;
-    }
-    /* Le balayage dure ~1,7 s, puis le logo reste au repos jusqu'au suivant. */
-    28%,
-    100% {
-      background-position: -75% 0;
-    }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .logo-sheen {
-      animation: none;
-    }
-  }
-
   /* Défilement horizontal « à la main ». JS ajoute .is-dragging pendant le glissé. */
   .drag-scroll {
     overflow-x: auto;

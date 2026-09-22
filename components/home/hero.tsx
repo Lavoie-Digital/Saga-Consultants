@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import Image from "next/image";
 import { motion, useScroll, useTransform, useReducedMotion } from "motion/react";
 import { MaskLines } from "@/components/anim";
 import { site } from "@/lib/site";
@@ -111,30 +110,8 @@ export default function Hero() {
           </span>
         </motion.div>
 
-        {/* Sur mobile, la colonne est haute et vide au-dessus du titre : le
-            logo occupe ce vide, centré dedans. Sur grand écran, celui de
-            l'en-tête suffit. */}
-        <motion.div
-          initial={reduce ? false : { opacity: 0, scale: 0.94 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 1.2, ease: EASE, delay: 0.35 }}
-          className="flex flex-1 items-center justify-center md:hidden"
-        >
-          <div className="relative w-[68%] max-w-[19rem]">
-            <Image
-              src="/logo.webp"
-              alt=""
-              width={1500}
-              height={559}
-              aria-hidden
-              priority
-              className="h-auto w-full opacity-70"
-            />
-            {/* Reflet : un dégradé qui traverse, découpé à la forme du logo. */}
-            <span aria-hidden className="logo-sheen absolute inset-0" />
-          </div>
-        </motion.div>
-
+        {/* Pas de logo ici : celui de l'en-tête est juste au-dessus, le
+            répéter faisait doublon et venait buter sur le titre. */}
         <h1 className="display text-[clamp(2.5rem,7.6vw,7rem)] text-cream">
           <MaskLines
             lines={["Un savoir-faire", "qui va au-delà", "des plans"]}
