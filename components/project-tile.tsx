@@ -27,9 +27,9 @@ export default function ProjectTile({
         className="object-cover transition-transform duration-[1100ms] ease-[var(--ease-swing)] group-hover:scale-[1.07] group-hover:rotate-[0.7deg]"
       />
 
-      {/* Voile + infos révélés au survol */}
-      <div className="absolute inset-0 bg-gradient-to-t from-green-deep/90 via-green-deep/25 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
-      <div className="absolute inset-x-0 bottom-0 translate-y-3 p-4 opacity-0 transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:translate-y-0 group-hover:opacity-100">
+      {/* Voile + infos : au survol sur ordinateur, toujours visibles sur écran tactile */}
+      <div className="absolute inset-0 bg-gradient-to-t from-green-deep/90 via-green-deep/25 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100 [@media(hover:none)]:opacity-100" />
+      <div className="absolute inset-x-0 bottom-0 translate-y-3 p-4 opacity-0 transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:translate-y-0 group-hover:opacity-100 [@media(hover:none)]:translate-y-0 [@media(hover:none)]:opacity-100">
         <p className="font-mono text-[0.62rem] uppercase tracking-[0.12em] text-paper/70">
           {project.markets.join(" · ")}
         </p>

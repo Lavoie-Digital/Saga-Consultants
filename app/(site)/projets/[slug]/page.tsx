@@ -62,6 +62,8 @@ export default async function ProjectPage({
   const [project, all] = await Promise.all([getProject(slug), getProjects()]);
   if (!project) notFound();
 
+  const photos = [project.image, ...(project.gallery ?? [])].filter(Boolean);
+
   return (
     <>
       <JsonLd data={projectLd(project)} />
@@ -110,9 +112,11 @@ export default async function ProjectPage({
               </p>
             </Reveal>
 
-            {project.gallery && project.gallery.length > 0 && (
+            {/* La mosaïque reprend la photo principale en tête : sans elle, un
+                projet à une seule photo n'affichait aucune tuile. */}
+            {photos.length > 0 && (
               <div className="mt-10 grid grid-cols-2 gap-1.5 md:mt-14">
-                {project.gallery.map((src, i) => {
+                {photos.map((src, i) => {
                   // Une tuile large toutes les trois : grande, deux demies,
                   // grande — la mosaïque respire au lieu de s'aligner en grille.
                   const wide = i % 3 === 0;
@@ -129,7 +133,7 @@ export default async function ProjectPage({
                       >
                         <Image
                           src={src}
-                          alt={`${project.title} — vue ${i + 2}`}
+                          alt={`${project.title} — vue ${i + 1}`}
                           fill
                           sizes="(max-width: 768px) 100vw, 40vw"
                           className="object-cover"

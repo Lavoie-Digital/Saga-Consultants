@@ -49,9 +49,11 @@ function MemberCard({ m }: { m: Member }) {
         </div>
       )}
 
-      {/* Prénom + rôle au survol — pas de fiche individuelle pour le moment */}
-      <div className="absolute inset-0 bg-gradient-to-t from-green-deep/90 via-green-deep/20 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
-      <div className="absolute inset-x-0 bottom-0 translate-y-3 p-4 opacity-0 transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:translate-y-0 group-hover:opacity-100">
+      {/* Prénom + rôle : au survol sur ordinateur, toujours affichés sur écran
+          tactile — sans survol possible, ils n'apparaissaient jamais. Pas de
+          fiche individuelle pour le moment. */}
+      <div className="absolute inset-0 bg-gradient-to-t from-green-deep/90 via-green-deep/20 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100 [@media(hover:none)]:opacity-100" />
+      <div className="absolute inset-x-0 bottom-0 translate-y-3 p-4 opacity-0 transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:translate-y-0 group-hover:opacity-100 [@media(hover:none)]:translate-y-0 [@media(hover:none)]:opacity-100">
         <p className="font-display text-base font-medium leading-tight tracking-tight text-paper">
           {m.displayName ?? m.firstName}
         </p>
